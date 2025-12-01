@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` enum('student','instructor') NOT NULL DEFAULT 'student',
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE IF NOT EXISTS `courses` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `courses` (
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT fk_course_instructor FOREIGN KEY (`instructor_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE IF NOT EXISTS `lessons` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `lessons` (
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT fk_lesson_course FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE IF NOT EXISTS `enrollments` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `enrollments` (
   PRIMARY KEY (`id`),
   CONSTRAINT fk_enrollment_user FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_enrollment_course FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE IF NOT EXISTS `reviews` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -54,4 +54,4 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   PRIMARY KEY (`id`),
   CONSTRAINT fk_review_user FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_review_course FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)
+);

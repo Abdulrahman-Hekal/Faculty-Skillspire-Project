@@ -51,7 +51,7 @@ class App
         // 4. Dispatch
         if (!method_exists($this->controller, $this->method)) {
              // TODO: Redirect to 404 page
-             die("Method '{$this->method}' not found in " . get_class($this->controller));
+            die("Method '{$this->method}' not found in " . get_class($this->controller));
         }
 
         call_user_func_array([$this->controller, $this->method], $this->params);
