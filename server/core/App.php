@@ -13,11 +13,17 @@ class App
 
         // 1. Resolve Controller
         if (isset($url[0])) {
+            $url[0] = str_replace('-', '', $url[0]);
             $controllerName = ucfirst($url[0]) . 'Controller';
             $controllerPath = __DIR__ . '/../controllers/' . $controllerName . '.php';
 
             if (file_exists($controllerPath)) {
                 $this->controller = $controllerName;
+                unset($url[0]);
+            } else {
+                $this->controller = 'NotfoundController';
+                $this->method = 'index';
+                $this->params = [];
                 unset($url[0]);
             }
         }
@@ -28,9 +34,7 @@ class App
         if (file_exists($requirePath)) {
             require_once $requirePath;
         } else {
-            // TODO: Redirect to 404 page
-            http_response_code(404);
-            die("404 - Page Not Found (Controller missing: {$this->controller})");
+            header('Location: ' . BASE_URL . '/not-found');
         }
 
         // Instantiate the controller
@@ -50,8 +54,7 @@ class App
 
         // 4. Dispatch
         if (!method_exists($this->controller, $this->method)) {
-             // TODO: Redirect to 404 page
-            die("Method '{$this->method}' not found in " . get_class($this->controller));
+            header('Location: ' . BASE_URL . '/not-found');
         }
 
         call_user_func_array([$this->controller, $this->method], $this->params);

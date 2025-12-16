@@ -1,6 +1,6 @@
 <?php
 
-// Load Core Libraries
+// Load Modules
 require_once 'config/config.php';
 require_once 'server/core/Controller.php';
 require_once 'server/core/Model.php';

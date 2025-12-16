@@ -1,0 +1,339 @@
+/* Course Details Page Styles */
+
+/* Background Band */
+.course-header-background {
+  height: 450px;
+  width: 100%;
+  background: var(--main-gradient);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.course-details-container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.pop-out-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  position: relative;
+}
+
+/* Left Column: Image Card (As per template, visually 'left' or 'popped out') 
+   Wait, clearly in the template <div class="img-card"> is FIRST in HTML.
+   But typically, "Left" column is main content, "Right" is sidebar. 
+   The template calls its columns "img-card" (first) and "right" (second).
+   "img-card" has width: fit-content (usually fixed). "right" has width: 60%.
+   
+   If I want to match the Visual Template provided in the screenshot description/code:
+   Left: Card
+   Right: Details
+   
+   I will replicate this.
+*/
+
+.course-preview-card {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  width: 350px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+  z-index: 10;
+}
+
+.preview-image {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+}
+
+.preview-content {
+  padding: 1.5rem;
+  background-color: #1a1a1a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+}
+
+.preview-note {
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.course-price-large {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.enroll-btn {
+  background: var(--main-gradient);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.enroll-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  color: white;
+}
+
+.divider-or {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin: 0.5rem 0;
+  width: 100%;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.divider-or::before,
+.divider-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.divider-or::before {
+  margin-right: 15px;
+}
+.divider-or::after {
+  margin-left: 15px;
+}
+
+.guarantee-text {
+  font-size: 0.9rem;
+  color: #cbd5e0;
+}
+
+/* Right Column: Details */
+.course-info-column {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.course-header-info {
+  color: white;
+  margin-top: 1rem;
+}
+
+.course-title-large {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.course-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.instructor-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.course-categories {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.category-tag {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: white;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.course-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: white;
+  opacity: 0.95;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+/* Sections below header (Curriculum, Reviews) */
+.white-section {
+  background: white;
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #2d3748;
+  border-left: 5px solid var(--primary-color);
+  padding-left: 1rem;
+}
+
+.curriculum-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.lesson-item {
+  padding: 1.2rem 1.5rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: background 0.2s;
+  color: #4a5568;
+  text-decoration: none;
+}
+
+.lesson-item:last-child {
+  border-bottom: none;
+}
+
+.lesson-item:hover {
+  background: #fff;
+  color: var(--primary-color);
+}
+
+.lesson-number {
+  font-weight: 700;
+  color: #cbd5e0;
+  min-width: 30px;
+}
+
+.lesson-title {
+  font-weight: 500;
+  flex-grow: 1;
+}
+
+/* Reviews */
+.review-stats {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.big-rating {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #2d3748;
+  line-height: 1;
+}
+
+.review-stars-large {
+  color: #f6ad55;
+  font-size: 1.5rem;
+}
+
+.review-card {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.reviewer-name {
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.review-date {
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.review-content {
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .course-details-container {
+    padding-left: 15px; /* Ensure generic container padding handles overflow */
+    padding-right: 15px;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  .pop-out-grid {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .course-header-background {
+    height: 100%;
+    max-height: 500px; /* Limit height so content below isn't on gradient unintentionally */
+    position: absolute;
+  }
+
+  .course-preview-card {
+    width: 100%;
+    max-width: 100%; /* Ensure it fits */
+    order: -1; /* Place at top of flex container */
+    position: relative;
+    top: 0;
+    margin-bottom: 1rem;
+    z-index: 2; /* Content above gradient */
+  }
+
+  .course-info-column {
+    order: 1;
+    width: 100%; /* Fix width */
+  }
+}
