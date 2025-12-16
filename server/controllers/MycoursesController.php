@@ -2,13 +2,21 @@
 
 class MycoursesController extends Controller
 {
-  public $model;
-  public function __construct()
-  {
-    $this->model = $this->requireModel('CoursesModel');
-  }
-  public function index()
-  {
-    $this->requireView('my-courses/my-courses');
-  }
+    private $enrollmentsModel;
+
+    public function __construct()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . BASE_URL . '/login');
+            exit;
+        }
+
+        $this->enrollmentsModel = $this->requireModel('EnrollmentsModel');
+    }
+
+    public function index()
+    {
+        $courses = $this->enrollmentsModel->getEnrolledCourses($_SESSION['user_id']);
+        $this->requireView('my-courses/my-courses', ['courses' => $courses]);
+    }
 }

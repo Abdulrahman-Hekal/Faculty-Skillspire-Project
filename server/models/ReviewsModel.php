@@ -28,4 +28,10 @@ class ReviewsModel extends Model
          $result = $this->conn->execute_query($query, [$courseId])->fetch_assoc();
          return $result['avg_rating'] ?? 0;
     }
+
+    public function hasReviewed($userId, $courseId)
+    {
+        $query = "SELECT id FROM reviews WHERE user_id = ? AND course_id = ?";
+        return $this->conn->execute_query($query, [$userId, $courseId])->num_rows > 0;
+    }
 }

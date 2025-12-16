@@ -24,7 +24,15 @@
                     <?php echo $data['course']['price'] > 0 ? '$' . $data['course']['price'] : 'Free'; ?>
                 </div>
                 
-                <button class="enroll-btn">Enrol Now</button>
+                <?php if ($data['is_enrolled']): ?>
+                    <a href="<?php echo BASE_URL; ?>/lesson/<?php echo $data['course']['id']; ?>" class="enroll-btn text-decoration-none text-center d-block">Go to Course</a>
+                <?php elseif (isset($_SESSION['user_id'])): ?>
+                    <form action="<?php echo BASE_URL; ?>/course/enroll/<?php echo $data['course']['id']; ?>" method="post">
+                        <button type="submit" class="enroll-btn w-100">Enrol Now</button>
+                    </form>
+                <?php else: ?>
+                    <a href="<?php echo BASE_URL; ?>/login" class="enroll-btn text-decoration-none text-center d-block">Enrol Now</a>
+                <?php endif; ?>
                 
                 <div class="preview-features">
                     <div class="d-flex align-items-center gap-2">
@@ -100,6 +108,46 @@
             <!-- Reviews Section -->
             <div class="white-section reviews-section">
                 <h2 class="section-title">Student Reviews</h2>
+                
+                <?php if ($data['is_enrolled'] && !$data['has_reviewed']): ?>
+                    <div class="card mb-4 border-0 shadow-sm bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Leave a Review</h5>
+                            <form action="<?php echo BASE_URL; ?>/course/submitReview/<?php echo $data['course']['id']; ?>" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Rating</label>
+                                    <div class="rating-css">
+                                        <div class="star-icon">
+                                            <input type="radio" value="5" name="rating" id="rating5">
+                                            <label for="rating5" class="fa fa-star"></label>
+                                            <input type="radio" value="4" name="rating" id="rating4">
+                                            <label for="rating4" class="fa fa-star"></label>
+                                            <input type="radio" value="3" name="rating" id="rating3">
+                                            <label for="rating3" class="fa fa-star"></label>
+                                            <input type="radio" value="2" name="rating" id="rating2">
+                                            <label for="rating2" class="fa fa-star"></label>
+                                            <input type="radio" value="1" name="rating" id="rating1">
+                                            <label for="rating1" class="fa fa-star"></label>
+                                        </div>
+                                    </div>
+                                    <style>
+                                        .rating-css { display: inline-block; }
+                                        .star-icon { color: #ffe500; font-size: 20px; font-weight: bold; display: flex; flex-direction: row-reverse; justify-content: start; }
+                                        .star-icon input { display: none; }
+                                        .star-icon label { font-size: 20px; cursor: pointer; color: #ccc; margin-right: 5px; }
+                                        .star-icon input:checked ~ label { color: #ffcc00; }
+                                        .star-icon label:hover, .star-icon label:hover ~ label { color: #ffcc00; }
+                                    </style>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label fw-bold">Your Review</label>
+                                    <textarea class="form-control" id="comment" name="comment" rows="3" required placeholder="Share your experience..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endif; ?>
                 
                 <div class="review-stats">
                     <div class="d-flex flex-column align-items-center">
