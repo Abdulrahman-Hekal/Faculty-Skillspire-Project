@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * MycoursesController
+ * Handles the "My Courses" page for enrolled students.
+ */
 class MycoursesController extends Controller
 {
     private $enrollmentsModel;
@@ -14,6 +18,9 @@ class MycoursesController extends Controller
         $this->enrollmentsModel = $this->requireModel('EnrollmentsModel');
     }
 
+    /**
+     * Display list of enrolled courses.
+     */
     public function index()
     {
         $courses = $this->enrollmentsModel->getEnrolledCourses($_SESSION['user_id']);

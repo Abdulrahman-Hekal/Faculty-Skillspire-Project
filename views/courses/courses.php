@@ -131,13 +131,23 @@
                                         <div class="card-body">
                                             <div class="course-category"><?php echo $course['category']; ?></div>
                                             <h3 class="course-title"><?php echo $course['title']; ?></h3>
+                                            <div class="course-instructor">
+                                                <i class="fas fa-chalkboard-teacher me-1"></i> <?php echo $course['instructor_name']; ?>
+                                            </div>
                                             <div class="course-rating">
-                                                <i class="fas fa-star"></i>
                                                 <strong><?php echo number_format($course['avg_rating'], 1); ?></strong>
+                                                <?php for($i=1; $i<=5; $i++): ?>
+                                                    <?php if($i <= round($course['avg_rating'])): ?>
+                                                        <i class="fas fa-star"></i>
+                                                    <?php else: ?>
+                                                        <i class="far fa-star"></i>
+                                                    <?php endif; ?>
+                                                <?php endfor; ?>
+                                                <span class="reviews-count">(<?php echo $course['reviews_count']; ?> ratings)</span>
                                             </div>
                                             <div class="course-footer">
-                                                <div class="course-price">$<?php echo $course['price']; ?></div>
-                                                <span class="btn btn-sm btn-outline-primary rounded-pill">View</span>
+                                                <div class="course-price">$<?php echo number_format($course['price'], 2); ?></div>
+                                                <span class="btn btn-sm btn-outline-primary rounded-pill">View Details</span>
                                             </div>
                                         </div>
                                     </a>

@@ -24,7 +24,8 @@
             <?php if ($_SESSION['user_role'] == 'student'): ?>
               <a href="<?php echo BASE_URL; ?>/my-courses" class="nav-link">My Courses</a>
             <?php endif; ?>
-            <a href="<?php echo BASE_URL; ?>/login/logout" class="nav-link">Logout</a>
+            <a href="<?php echo BASE_URL; ?>/profile" class="nav-link">Profile</a>
+            <a href="<?php echo BASE_URL; ?>/login/logout" class="nav-link btn-logout">Logout</a>
           <?php else: ?>
             <a href="<?php echo BASE_URL; ?>/login" class="btn-login">Login</a>
             <a href="<?php echo BASE_URL; ?>/register" class="btn-signup">Sign Up</a>
@@ -46,6 +47,7 @@
           <?php if ($_SESSION['user_role'] == 'student'): ?>
             <a href="<?php echo BASE_URL; ?>/my-courses" class="mobile-nav-link">My Courses</a>
           <?php endif; ?>
+          <a href="<?php echo BASE_URL; ?>/profile" class="mobile-nav-link">Profile</a>
           <a href="<?php echo BASE_URL; ?>/login/logout" class="mobile-nav-link">Logout</a>
         <?php else: ?>
           <a href="<?php echo BASE_URL; ?>/login" class="mobile-nav-link">Login</a>

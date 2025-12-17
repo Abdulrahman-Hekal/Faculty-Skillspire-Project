@@ -1,11 +1,26 @@
 <?php
 
+/**
+ * CoursesModel
+ * Handles course management, retrieval, and filtering.
+ */
 class CoursesModel extends Model
 {
+    /**
+     * Get published courses with optional filtering and pagination.
+     * 
+     * @param int $page
+     * @param int $limit
+     * @param array $filters
+     * @return array
+     */
     public function getPublicCourses($page = 1, $limit = 10, $filters = [])
     {
-        $query = "SELECT c.*, COALESCE(AVG(r.rating), 0) as avg_rating 
+        $query = "SELECT c.*, u.name as instructor_name, 
+                  COALESCE(AVG(r.rating), 0) as avg_rating,
+                  COUNT(r.id) as reviews_count
                   FROM courses c 
+                  JOIN users u ON c.instructor_id = u.id 
                   LEFT JOIN reviews r ON c.id = r.course_id 
                   WHERE c.is_published = 1";
         $params = [];
@@ -62,6 +77,12 @@ class CoursesModel extends Model
         return $this->conn->execute_query($query, $params)->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Get the total count of published courses for pagination.
+     * 
+     * @param array $filters
+     * @return int
+     */
     public function getTotalPublicCourses($filters = [])
     {
         $query = "SELECT c.id, COALESCE(AVG(r.rating), 0) as avg_rating 
@@ -105,11 +126,24 @@ class CoursesModel extends Model
         return $this->conn->execute_query($finalQuery, $params)->fetch_assoc()['total'];
     }
 
+    /**
+     * Get all courses for a specific instructor.
+     * 
+     * @param int $instructorId
+     * @return array
+     */
     public function getInstructorCourses($instructorId)
     {
         return $this->conn->execute_query("SELECT * FROM courses WHERE instructor_id = ?", [$instructorId])->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Get detailed information for a single course.
+     * Includes instructor name, student count, average rating, and review count.
+     * 
+     * @param int $courseId
+     * @return array|null
+     */
     public function getCourseDetails($courseId)
     {
         $query = "SELECT c.*, u.name as instructor_name, 
@@ -124,26 +158,23 @@ class CoursesModel extends Model
         return $this->conn->execute_query($query, [$courseId])->fetch_assoc();
     }
 
-    public function getCourseLessons($courseId)
-    {
-        return $this->conn->execute_query("SELECT * FROM lessons WHERE course_id = ? ORDER BY `order` ASC", [$courseId])->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getCourseReviews($courseId)
-    {
-        $query = "SELECT r.*, u.name as user_name 
-                  FROM reviews r 
-                  JOIN users u ON r.user_id = u.id 
-                  WHERE r.course_id = ? 
-                  ORDER BY r.created_at DESC";
-        return $this->conn->execute_query($query, [$courseId])->fetch_all(MYSQLI_ASSOC);
-    }
-
+    /**
+     * Get basic course information by ID.
+     * 
+     * @param int $courseId
+     * @return array|null
+     */
     public function getCourseById($courseId)
     {
         return $this->conn->execute_query("SELECT * FROM courses WHERE id = ?", [$courseId])->fetch_assoc();
     }
 
+    /**
+     * Create a new course.
+     * 
+     * @param array $data
+     * @return int Insert ID
+     */
     public function createCourse($data)
     {
         $query = "INSERT INTO courses (instructor_id, title, category, description, price, thumbnail, is_published) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -159,6 +190,13 @@ class CoursesModel extends Model
         return $this->conn->insert_id;
     }
 
+    /**
+     * Update an existing course.
+     * 
+     * @param int $courseId
+     * @param array $data
+     * @return bool|mysqli_result
+     */
     public function updateCourse($courseId, $data)
     {
         $query = "UPDATE courses SET title = ?, category = ?, description = ?, price = ?, thumbnail = ?, is_published = ? WHERE id = ?";
@@ -173,6 +211,12 @@ class CoursesModel extends Model
         ]);
     }
 
+    /**
+     * Delete a course.
+     * 
+     * @param int $courseId
+     * @return bool|mysqli_result
+     */
     public function deleteCourse($courseId)
     {
         return $this->conn->execute_query("DELETE FROM courses WHERE id = ?", [$courseId]);

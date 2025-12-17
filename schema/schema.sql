@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `enrollments` (
   `user_id` int NOT NULL,
   `course_id` int NOT NULL,
   `enrolled_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `progress` INT DEFAULT 0,
   PRIMARY KEY (`id`),
   CONSTRAINT fk_enrollment_user FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_enrollment_course FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON DELETE CASCADE ON UPDATE CASCADE

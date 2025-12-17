@@ -36,10 +36,10 @@
                             
                             <div class="d-flex justify-content-between text-muted small mb-1">
                                 <span>Progress</span>
-                                <span>0%</span> 
+                                <span><?php echo $course['progress'] ?? 0; ?>%</span> 
                             </div>
                             <div class="progress-bar-container">
-                                <div class="progress-bar-fill" style="width: 0%"></div>
+                                <div class="progress-bar-fill" style="width: <?php echo $course['progress'] ?? 0; ?>%"></div>
                             </div>
                             
                             <a href="<?php echo BASE_URL; ?>/lesson/<?php echo $course['id']; ?>" class="btn-continue">

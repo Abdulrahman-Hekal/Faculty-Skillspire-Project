@@ -31,12 +31,15 @@ body {
 
 /* Header */
 .header {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.85); /* Slightly more transparent */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Subtle border */
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05); /* Softer shadow */
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: background 0.3s ease, padding 0.3s ease;
 }
 
 .header .container {
@@ -197,9 +200,30 @@ body {
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
+/* Logout Button */
+.btn-logout {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  color: white !important;
+  padding: 0.5rem 1.25rem;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-logout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, #fa5252 0%, #ff6b6b 100%);
+}
+
+.btn-logout::after {
+  display: none !important;
+}
+
 /* Footer */
 .footer {
-  background: rgba(0, 0, 0, 0.8);
+  background-color: rgb(17,24,41);
   color: white;
   padding: 3rem 0 1rem;
   margin-top: 4rem;

@@ -2,13 +2,8 @@
 
 /* Background Band */
 .course-header-background {
-  height: 450px;
-  width: 100%;
   background: var(--main-gradient);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
+  margin-bottom: -64px;
 }
 
 .course-details-container {
@@ -46,7 +41,7 @@
   overflow: hidden;
   flex-shrink: 0;
   position: sticky;
-  top: 100px;
+  top: 165px;
   height: fit-content;
   z-index: 10;
 }
@@ -316,12 +311,6 @@
     gap: 2rem;
   }
 
-  .course-header-background {
-    height: 100%;
-    max-height: 500px; /* Limit height so content below isn't on gradient unintentionally */
-    position: absolute;
-  }
-
   .course-preview-card {
     width: 100%;
     max-width: 100%; /* Ensure it fits */
@@ -336,4 +325,33 @@
     order: 1;
     width: 100%; /* Fix width */
   }
+}
+
+/* Rating Stars Input */
+.rating-css {
+  display: inline-block;
+}
+.star-icon {
+  color: #ffe500;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
+}
+.star-icon input {
+  display: none;
+}
+.star-icon label {
+  font-size: 20px;
+  cursor: pointer;
+  color: #ccc;
+  margin-right: 5px;
+}
+.star-icon input:checked ~ label {
+  color: #ffcc00;
+}
+.star-icon label:hover,
+.star-icon label:hover ~ label {
+  color: #ffcc00;
 }

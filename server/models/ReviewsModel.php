@@ -1,7 +1,17 @@
 <?php
 
+/**
+ * ReviewsModel
+ * Handles review creation and retrieval.
+ */
 class ReviewsModel extends Model
 {
+    /**
+     * Create a new review.
+     * 
+     * @param array $data
+     * @return bool|mysqli_result
+     */
     public function createReview($data)
     {
         $query = "INSERT INTO reviews (user_id, course_id, rating, comment) VALUES (?, ?, ?, ?)";
@@ -13,15 +23,27 @@ class ReviewsModel extends Model
         ]);
     }
 
+    /**
+     * Get all reviews for a course.
+     * 
+     * @param int $courseId
+     * @return array
+     */
     public function getReviewsByCourseId($courseId)
     {
-        $query = "SELECT r.*, u.name as reviewer_name FROM reviews r
+        $query = "SELECT r.*, u.name as user_name FROM reviews r
                   JOIN users u ON r.user_id = u.id
                   WHERE r.course_id = ?
                   ORDER BY r.created_at DESC";
         return $this->conn->execute_query($query, [$courseId])->fetch_all(MYSQLI_ASSOC);
     }
     
+    /**
+     * Get the average rating for a course.
+     * 
+     * @param int $courseId
+     * @return float
+     */
     public function getAverageRating($courseId)
     {
          $query = "SELECT AVG(rating) as avg_rating FROM reviews WHERE course_id = ?";
@@ -29,6 +51,13 @@ class ReviewsModel extends Model
          return $result['avg_rating'] ?? 0;
     }
 
+    /**
+     * Check if a user has already reviewed a course.
+     * 
+     * @param int $userId
+     * @param int $courseId
+     * @return bool
+     */
     public function hasReviewed($userId, $courseId)
     {
         $query = "SELECT id FROM reviews WHERE user_id = ? AND course_id = ?";

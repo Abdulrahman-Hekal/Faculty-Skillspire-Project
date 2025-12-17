@@ -10,11 +10,11 @@
             <div class="course-progress">
                 <div class="d-flex justify-content-between mb-1">
                     <span>Course Progress</span>
-                    <span>0%</span>
+                    <span><?php echo $data['progress_percent']; ?>%</span>
                 </div>
                 <!-- Progress bar static for now -->
                 <div class="progress">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $data['progress_percent']; ?>%" aria-valuenow="<?php echo $data['progress_percent']; ?>" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>

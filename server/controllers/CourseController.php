@@ -1,12 +1,23 @@
 <?php
 
+/**
+ * CourseController
+ * Handles course details viewing, enrollment, and reviews.
+ */
 class CourseController extends Controller
 {
   private $model;
+
   public function __construct()
   {
     $this->model = $this->requireModel('CoursesModel');
   }
+
+  /**
+   * Display course details page.
+   *
+   * @param int $courseId
+   */
   public function index($courseId)
   {
     $course = $this->model->getCourseDetails($courseId);
@@ -16,8 +27,13 @@ class CourseController extends Controller
         exit;
     }
 
-    $lessons = $this->model->getCourseLessons($courseId);
-    $reviews = $this->model->getCourseReviews($courseId);
+    // Fetch Lessons
+    $lessonsModel = $this->requireModel('LessonsModel');
+    $lessons = $lessonsModel->getLessonsByCourseId($courseId);
+
+    // Fetch Reviews
+    $reviewsModel = $this->requireModel('ReviewsModel');
+    $reviews = $reviewsModel->getReviewsByCourseId($courseId);
     
     $isEnrolled = false;
     $hasReviewed = false;
@@ -25,7 +41,6 @@ class CourseController extends Controller
         $enrollmentModel = $this->requireModel('EnrollmentsModel');
         $isEnrolled = $enrollmentModel->isEnrolled($_SESSION['user_id'], $courseId);
         
-        $reviewsModel = $this->requireModel('ReviewsModel');
         $hasReviewed = $reviewsModel->hasReviewed($_SESSION['user_id'], $courseId);
     }
 
@@ -41,6 +56,11 @@ class CourseController extends Controller
     $this->requireView('course/course', $data);
   }
 
+  /**
+   * Enroll the currently logged-in user in the course.
+   *
+   * @param int $courseId
+   */
   public function enroll($courseId)
   {
       if (!isset($_SESSION['user_id'])) {
@@ -58,9 +78,16 @@ class CourseController extends Controller
       if ($enrollmentModel->enrollUser($_SESSION['user_id'], $courseId)) {
           header('Location: ' . BASE_URL . '/my-courses');
       } else {
-          die('Something went wrong');
+          // In a real app, set a flash message here
+          header('Location: ' . BASE_URL . '/courses'); 
       }
   }
+
+  /**
+   * Submit a review for the course.
+   *
+   * @param int $courseId
+   */
   public function submitReview($courseId)
   {
       if (!isset($_SESSION['user_id'])) {
@@ -69,12 +96,14 @@ class CourseController extends Controller
       }
 
       $enrollmentModel = $this->requireModel('EnrollmentsModel');
+      // Must be enrolled to review
       if (!$enrollmentModel->isEnrolled($_SESSION['user_id'], $courseId)) {
         header('Location: ' . BASE_URL . '/course/index/' . $courseId);
         exit;
       }
 
       $reviewsModel = $this->requireModel('ReviewsModel');
+      // Include check to prevent duplicate reviews
       if ($reviewsModel->hasReviewed($_SESSION['user_id'], $courseId)) {
         header('Location: ' . BASE_URL . '/course/index/' . $courseId);
         exit;
@@ -91,14 +120,11 @@ class CourseController extends Controller
           ];
 
           if (!empty($data['rating']) && !empty($data['comment'])) {
-              if ($reviewsModel->createReview($data)) {
-                  header('Location: ' . BASE_URL . '/course/index/' . $courseId);
-              } else {
-                  die('Something went wrong');
-              }
-          } else {
-              header('Location: ' . BASE_URL . '/course/index/' . $courseId);
+              $reviewsModel->createReview($data);
           }
+          
+          // Redirect back to course page regardless of success/fail for now
+          header('Location: ' . BASE_URL . '/course/index/' . $courseId);
       }
   }
 }
