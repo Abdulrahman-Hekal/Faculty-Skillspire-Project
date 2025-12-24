@@ -10,7 +10,7 @@ class CoursesController extends Controller
   public function index()
   {
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-    $limit = 9;
+    $limit = 10;
     
     $filters = [
         'search' => $_GET['search'] ?? '',
